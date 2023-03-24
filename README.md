@@ -5,7 +5,65 @@ Seed project extracted from [SolidStart TodoMVC](https://github.com/peerreynders
 
 ```shell
 $ cd solid-start-demo-login
+$ cp .env.example .env
 $ npm i
+
+added 451 packages, and audited 452 packages in 3s
+
+56 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+$ npm run build
+
+> solid-start-demo-login@0.0.0 build
+> solid-start build
+
+ solid-start build 
+ version  0.2.23
+ adapter  node
+
+solid-start building client...
+vite v4.2.1 building for production...
+✓ 59 modules transformed.
+Inspect report generated at solid-start-demo-login/.solid/inspect
+dist/public/manifest.json                     0.83 kB
+dist/public/ssr-manifest.json                 1.94 kB
+dist/public/assets/_...404_-d57f2e83.js       0.56 kB │ gzip:  0.38 kB
+dist/public/assets/index-086cbc74.js          0.76 kB │ gzip:  0.48 kB
+dist/public/assets/login-0733d077.js          6.69 kB │ gzip:  2.75 kB
+dist/public/assets/entry-client-ec049f4b.js  39.48 kB │ gzip: 15.13 kB
+✓ built in 1.33s
+solid-start client built in: 1.368s
+
+solid-start building server...
+vite v4.2.1 building SSR bundle for production...
+✓ 63 modules transformed.
+Inspect report generated at solid-start-demo-login/.solid/inspect
+.solid/server/manifest.json     0.12 kB
+.solid/server/entry-server.js  86.31 kB
+✓ built in 820ms
+solid-start server built in: 846.919ms
+
+$ npm start
+
+> solid-start-demo-login@0.0.0 start
+> solid-start start
+
+ solid-start start 
+ version  0.2.23
+ adapter  node
+
+
+  ➜  Page Routes:
+     ┌─ http://localhost:3000/*404
+     ├─ http://localhost:3000/
+     └─ http://localhost:3000/login
+
+  ➜  API Routes:
+     None! 👻
+
+Listening on port 3000
 
 ```
 **Note**: The in-memory server side store re-seeds itself (johnsmith@outlook.com J0hn5M1th) whenever the `demo-persisted.json` file cannot be found.
