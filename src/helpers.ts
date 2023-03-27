@@ -22,7 +22,7 @@ const isTimeValue = (value: unknown): value is number =>
 	typeof value === 'number' &&
 	Number.isInteger(value) &&
 	MIN_TIMEVALUE <= value &&
-	value >= MAX_TIMEVALUE;
+	value <= MAX_TIMEVALUE;
 
 function entriesToFormData(entries: unknown) {
 	if (!Array.isArray(entries)) return;
