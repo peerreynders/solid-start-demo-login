@@ -1,5 +1,6 @@
 
 dist
+.data
 .solid
 .output
 .vercel
