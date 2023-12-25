@@ -1,3 +1,6 @@
-import { defineConfig } from "@solidjs/start/config";
+import solid from "solid-start/vite";
+import { defineConfig } from "vite";
 
-export default defineConfig({});
+export default defineConfig({
+  plugins: [solid()],
+});
