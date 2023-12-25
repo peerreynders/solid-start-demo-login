@@ -1,17 +1,20 @@
 import { createStorage } from 'unstorage';
 import fsLiteDriver from 'unstorage/drivers/fs-lite';
+import { Observable, rx, type Observer } from 'rxjs';
 import { nanoid } from 'nanoid'; 
-import bcrypt from 'bcryptjs';
+//import bcrypt from 'bcryptjs';
 
 type User = {
 	id: string;
 	email: string;
 };
+type Users = User[];
 
 type Password = {
 	hash: string;
 	userId: string;
 };
+type Passwords = Password[];
 
 type SeedContent = [
 	email: string,
@@ -29,6 +32,41 @@ const storage = createStorage({
   })
 });
 
+(() => {
+/*
+	const observable = new Observable((subscriber: Observer<number>) => {
+		subscriber.next(1);
+		subscriber.complete();
+	});
+
+	observable.subscribe({ next: (value) => console.log('NEXT:', value), complete: () => console.log('COMPLETE') });
+*/
+rx(
+	storage.getItem<Users>('users'),
+	(fromUsers) => {
+		const storageReady = new Observable((subscriber: Observer<void>) => {
+			fromUsers.subscribe((users) => {
+				if (Array.isArray(users)) {
+					subscriber.complete();
+					return;
+				}
+				
+				new Observable((s: Observer<{ i: number, id: string, email: string, password: string}>) => {
+					for (let i = 0; i < content.length; i += 1) {
+						const id = nanoid();
+						const [email, password] = content[i];
+						s.next({ i, id, email, password})
+					}
+					s.complete()
+				}).subscribe({ next: (info) => console.log('INFO',info),  complete: () => subscriber.complete(), error: (error) => subscriber.error(error) } );
+			});
+		});
+		return storageReady;
+	},
+).subscribe({ complete: () => console.log('COMPLETE'), error: (error) => console.log('Error:', error) });
+
+})();
+/*
 (function () {
 	storage.getItem('users').then((data) => {
 		if (data) return undefined;
@@ -57,7 +95,7 @@ const storage = createStorage({
 	//storage.setItem("users:data", [{ id: 0, username: "kody", password: "twixrox" }]);
 	console.log('runn');
 })();
-
+*/
 function verifyLogin() {
 	console.log('REPO');
 }
