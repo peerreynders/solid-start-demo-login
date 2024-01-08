@@ -1,29 +1,24 @@
 import {
 	createContext,
-	createResource,
+	//	createResource,
 	useContext,
 	type ParentProps,
-	type Resource,
+	//	type Resource,
 } from 'solid-js';
 
-import { getRequestEvent } from 'solid-js/web';
+import { createAsync } from '@solidjs/router';
 
-import { userFromFetchEvent } from '../server/helpers';
+import { userFromSession as getUser } from '../api/server';
 
-import type { User } from '../types';
-
-function userFromSession() {
-	"use server";
-	return userFromFetchEvent(getRequestEvent());
-}
+import type { MaybeUser, UserAccessor } from '../types';
 
 function makeSessionUser() {
-	const [userResource] = createResource<User | undefined>(userFromSession);
+	const user = createAsync<MaybeUser>(getUser);
 
-	return userResource;
+	return user;
 }
 
-const UserContext = createContext<Resource<User | undefined> | undefined>();
+const UserContext = createContext<UserAccessor | undefined>();
 
 type Props = ParentProps;
 

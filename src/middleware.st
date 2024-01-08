@@ -3,6 +3,7 @@ import { getSession } from './server/session';
 import { selectUserById } from './server/repo';
 
 async function attachUser(event: FetchEvent) {
+	console.log('attachUser');
 	const session = await getSession(event);
 	const { userId } = session.data;
 	if (userId) {
@@ -12,6 +13,6 @@ async function attachUser(event: FetchEvent) {
 }
 
 export default createMiddleware({
-  onRequest: [attachUser],
+	onRequest: [attachUser],
 	onBeforeResponse: [],
 });

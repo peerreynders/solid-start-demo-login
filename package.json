@@ -4,19 +4,34 @@
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
-    "start": "node ./.output/server/index.mjs"
+    "start": "node ./.output/server/index.mjs",
+    "format": "prettier --write ./src",
+    "lint:es": "eslint ./src",
+    "lint:types": "./node_modules/.bin/tsc --noEmit"
   },
   "dependencies": {
-    "@solidjs/start": "^0.4.2",
+    "@solidjs/meta": "^0.29.0",
+    "@solidjs/router": "^0.10.6",
+    "@solidjs/start": "^0.4.4",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
+    "h3": "1.9.0",
     "nanoid": "^5.0.4",
     "rxjs": "8.0.0-alpha.13",
-    "solid-js": "^1.8.7",
+    "solid-js": "^1.8.8",
     "unstorage": "^1.10.1",
-    "vinxi": "0.0.54"
+    "vinxi": "0.1.1"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
   }
 }

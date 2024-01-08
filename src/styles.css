@@ -1,6 +1,6 @@
 :root {
-  --clr-solid-medium: rgb(68, 107, 158);
-  --bg-solid-medium: rgb(68, 107, 158);
+	--clr-solid-medium: rgb(68, 107, 158);
+	--bg-solid-medium: rgb(68, 107, 158);
 	--clr-text-primary: rgb(77, 77, 77);
 	--clr-text-shadow: rgba(255, 255, 255, 0.5);
 	--clr-border-light: rgb(229, 231, 235);
@@ -8,29 +8,28 @@
 }
 
 body {
-  font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell,
-    'Open Sans', 'Helvetica Neue', sans-serif;
+	font-family: Gordita, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+		'Helvetica Neue', sans-serif;
 }
 
 a {
-  margin-right: 1rem;
+	margin-right: 1rem;
 }
 
 main {
-  text-align: center;
-  padding: 1em;
-  margin: 0 auto;
+	text-align: center;
+	padding: 1em;
+	margin: 0 auto;
 }
 
 h1 {
-  color: var(--clr-solid-medium);
-  font-size: 4rem;
-  font-weight: 100;
-  line-height: 1.1;
-  margin: 4rem auto;
-  max-width: 14rem;
+	color: var(--clr-solid-medium);
+	font-size: 4rem;
+	font-weight: 100;
+	line-height: 1.1;
+	margin: 4rem auto;
+	max-width: 14rem;
 }
-
 
 .c-login {
 	display: flex;
@@ -70,7 +69,7 @@ h1 {
 	padding: 0.5rem 1rem;
 	width: 100%;
 	font-size: 1.5rem;
-  border-color: var(--clr-border-light);
+	border-color: var(--clr-border-light);
 }
 
 .c-login__email,
@@ -83,19 +82,19 @@ h1 {
 }
 
 .c-info {
-  max-width: 14rem;
-  margin: 2rem auto;
+	max-width: 14rem;
+	margin: 2rem auto;
 	color: var(--clr-text-primary);
 	font-size: 1em;
 	text-shadow: 0 1px 0 var(--clr-text-shadow);
 	text-align: center;
 }
 
-.c-info__line {
+.c-info-learn {
 	line-height: 1.35;
 }
 
-.c-info__line a {
+.c-info-learn a {
 	margin: 0;
 }
 
@@ -108,19 +107,19 @@ h1 {
 
 .c-info__pointer:hover {
 	text-decoration: underline;
-}	
+}
 .c-info__logout {
 	display: inline-block;
 }
-	
-@media (min-width: 480px) {
-  h1 {
-    max-width: none;
-  }
 
-  .c-info {
-    max-width: none;
-  }
+@media (min-width: 480px) {
+	h1 {
+		max-width: none;
+	}
+
+	.c-info {
+		max-width: none;
+	}
 }
 
 .u-flat-button {
