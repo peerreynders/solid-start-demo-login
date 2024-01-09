@@ -5,7 +5,7 @@ import type { FromUserStore, HashUser, SeedContent, UserInfo } from './types';
 
 const content: SeedContent = [
 	['johnsmith@outlook.com', 'J0hn5M1th'],
-	['kody@gmail.com', 'twixrox'],
+	['kody@gmail.com', 'twixroxz'],
 ];
 
 const byAscIndex = <T extends { i: number }>(a: T, b: T) => a.i - b.i;

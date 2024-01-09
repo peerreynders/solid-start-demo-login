@@ -2,11 +2,17 @@ import { getCookie, unsealSession } from 'h3';
 import type { H3Event, Session } from 'h3';
 // import { getSession, updateSession } from '@solidjs/start/server';
 import { updateSession } from '@solidjs/start/server';
+
+import type { RequestEvent } from 'solid-js/web';
 import type { FetchEvent, SessionConfig } from '@solidjs/start/server';
+import type { User } from '../types';
 
 export type SessionRecord = {
 	userId?: string | undefined;
 };
+
+const USER_SESSION_KEY = 'userId';
+const USER_SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 const config: SessionConfig = (() => {
 	if (
@@ -80,17 +86,29 @@ async function getSession<T extends SessionDataT = SessionDataT>(
 
 	return session;
 }
-
+// TODO: remove data augmentation
 async function sessionFromEvent(event: FetchEvent) {
 	const session = await getSession<SessionRecord>(event, config);
-	const { userId } = session.data;
-	if (typeof userId !== 'string' && new URL(event.request.url).pathname === '/')
-		session.data.userId = 'AC3wvetqX45fYsIxxxCEl';
 	return session;
+}
+
+async function renewSession(
+	event: RequestEvent, 
+	user: User, 
+	remember: boolean 
+){
+	const sessionConfig = remember ? {...config, cookie: {...config.cookie, maxAge: USER_SESSION_MAX_AGE }} : config;
+	const session = await getSession<SessionRecord>(event, sessionConfig);
+	
+	session.data[USER_SESSION_KEY] = user.id;
+	event.locals.user = user;	
+
+	// TODO: fix session update
+	// await updateSession(event, sessionConfig, session);
 }
 
 function clearSession(event: FetchEvent) {
 	return updateSession(event, config, {});
 }
 
-export { clearSession, sessionFromEvent };
+export { clearSession, renewSession, sessionFromEvent };

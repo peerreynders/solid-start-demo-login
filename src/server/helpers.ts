@@ -3,7 +3,7 @@ import { sessionFromEvent } from './session';
 import { selectUserById } from './repo';
 import type { User } from './types';
 
-type SessionType = Awaited<ReturnType<typeof getSession>>;
+type SessionType = Awaited<ReturnType<typeof sessionFromEvent>>;
 
 function queryUser([event, session]: [FetchEvent, SessionType]) {
 	const { userId } = session.data;
