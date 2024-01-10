@@ -1,5 +1,5 @@
 const homeHref = '/';
-/*
+
 function loginHref(redirectTo?: string) {
 	const href = '/login';
 	if (!redirectTo || redirectTo === homeHref) return href;
@@ -9,7 +9,10 @@ function loginHref(redirectTo?: string) {
 }
 
 const logoutHref = '/logout';
-*/
-export { 
-	homeHref //, loginHref, logoutHref 
-};
+
+function pathAbsolute(url: URL) {
+	const start = url.href.indexOf(url.pathname, url.origin.length);
+	return url.href.slice(start);
+}
+
+export { homeHref, loginHref, logoutHref, pathAbsolute };

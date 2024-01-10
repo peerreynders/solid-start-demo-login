@@ -1,8 +1,17 @@
-import type { FetchEvent } from '@solidjs/start/server';
 import { sessionFromEvent } from './session';
 import { selectUserById } from './repo';
+
+import type { RequestEvent } from 'solid-js/web';
+import type { FetchEvent } from '@solidjs/start/server';
 import type { User } from './types';
 
+function userFromRequestEvent(event: RequestEvent) {
+	if (!('user' in event.locals)) return undefined;
+	const user = event.locals.user;
+	return user && typeof user === 'object' ? user : undefined;
+}
+
+// TODO: review use of userFromFetch logic
 type SessionType = Awaited<ReturnType<typeof sessionFromEvent>>;
 
 function queryUser([event, session]: [FetchEvent, SessionType]) {
@@ -23,17 +32,12 @@ function cacheUser(context: [FetchEvent, User | undefined] | undefined) {
 }
 
 function userFromFetchEvent(event: FetchEvent) {
-	if ('user' in event.locals) {
-		// If `user` is already set to `undefined` we've
-		// already tried before and didn't find anything
-		return typeof event.locals.user === 'object'
-			? (event.locals.user as User)
-			: undefined;
-	}
+	const user = userFromRequestEvent(event);
+	if (user) return user;
 
 	return Promise.all([event, sessionFromEvent(event)])
 		.then(queryUser)
 		.then(cacheUser);
 }
 
-export { userFromFetchEvent };
+export { userFromFetchEvent, userFromRequestEvent };

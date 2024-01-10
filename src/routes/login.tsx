@@ -3,10 +3,10 @@ import { isServer } from 'solid-js/web';
 import { Title } from '@solidjs/meta';
 import { useSubmission, type RouteSectionProps } from '@solidjs/router';
 import { signIn } from '../api';
-import { homeHref } from '../route-path'; 
+import { homeHref } from '../route-path';
 
 const emailHasError = (emailError: () => string | undefined) =>
-	typeof emailError() !== undefined;
+	typeof emailError() !== 'undefined';
 
 const emailInvalid = (emailError: () => string | undefined) =>
 	emailError() ? true : undefined;
@@ -15,7 +15,7 @@ const emailErrorId = (emailError: () => string | undefined) =>
 	emailError() ? 'email-error' : undefined;
 
 const passwordHasError = (passwordError: () => string | undefined) =>
-	typeof passwordError() !== undefined;
+	typeof passwordError() !== 'undefined';
 
 const passwordInvalid = (passwordError: () => string | undefined) =>
 	passwordError() ? true : undefined;
@@ -27,11 +27,13 @@ const hasAutofocus = (id: string, focusId: () => string) =>
 	isServer ? focusId() === id : undefined;
 
 export default function Login(props: RouteSectionProps) {
-	const redirectTo = props.params['redirect-to'] || homeHref;	
+	const redirectTo = props.params['redirect-to'] || homeHref;
 
 	const signingIn = useSubmission(signIn);
-	const emailError = () => signingIn.result?.errors?.email as string | undefined; 
-	const passwordError = () => signingIn.result?.errors?.password as string | undefined; 
+	const emailError = () =>
+		signingIn.result?.errors?.email as string | undefined;
+	const passwordError = () =>
+		signingIn.result?.errors?.password as string | undefined;
 	const focusId = () => (passwordError() ? 'password' : 'email');
 
 	let emailInput: HTMLInputElement | undefined;
@@ -85,7 +87,7 @@ export default function Login(props: RouteSectionProps) {
 						<Show when={passwordHasError(passwordError)}>
 							<div id="password-error">{passwordError()}</div>
 						</Show>
-					</div>			 		
+					</div>
 					<input type="hidden" name="redirect-to" value={redirectTo} />
 					<button type="submit" name="kind" value="login">
 						Log In

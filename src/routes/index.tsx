@@ -1,7 +1,6 @@
-import { useUser } from '../components/user-context';
 import { logout } from '../api';
+import { useUser } from '../components/user-context';
 
-import type { RouteDefinition } from '@solidjs/router';
 import type { UserAccessor } from '../types';
 
 const userEmail = (user: UserAccessor | undefined) => user?.()?.email ?? '';
@@ -14,8 +13,6 @@ function selectName(email: string) {
 			? email
 			: 'world';
 }
-
-export const route = {} satisfies RouteDefinition;
 
 export default function Home() {
 	const user = useUser();

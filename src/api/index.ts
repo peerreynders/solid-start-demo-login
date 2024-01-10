@@ -1,9 +1,21 @@
+import { getRequestEvent } from 'solid-js/web';
 import { action, cache } from '@solidjs/router';
-import { logoutFn, signInFn, userFromSession } from './server';
+import { logoutFn, signInFn } from './server';
+import { userFromRequestEvent } from '../server/helpers';
 
-export type { SignInSubmission } from './server'
+import type { MaybeUser } from '../types';
 
-const getUser = cache(userFromSession, 'user');
+async function userFromSession() {
+	'use server';
+	const event = getRequestEvent();
+	if (!event) return undefined;
+	return userFromRequestEvent(event);
+}
+
+const getUser = cache<() => Promise<MaybeUser>, Promise<MaybeUser>>(
+	userFromSession,
+	'user'
+);
 const logout = action(logoutFn, 'logout');
 const signIn = action(signInFn, 'signin');
 
