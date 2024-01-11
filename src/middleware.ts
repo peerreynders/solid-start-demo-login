@@ -5,7 +5,7 @@ import {
 	sessionUserId,
 	USER_SESSION_NAME,
 } from './server/session';
-import { logout } from './api/server';
+import { signOut } from './api/server';
 import { selectUserById } from './server/repo';
 import { homeHref, loginHref, logoutHref, pathAbsolute } from './route-path';
 
@@ -17,7 +17,7 @@ async function redirectWhenNotAuthenticated(event: RequestEvent) {
 	const route = url.pathname;
 	if (route === logoutHref) {
 		// Perform logout and goto login screen
-		await logout(event);
+		await signOut(event);
 		return sendRedirect(event, login);
 	}
 

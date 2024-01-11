@@ -1,4 +1,5 @@
 // @refresh reload
+// file: src/app.tsx
 import { Suspense } from 'solid-js';
 import { createAsync, Router } from '@solidjs/router';
 import { MetaProvider, Title } from '@solidjs/meta';
@@ -11,20 +12,20 @@ import { UserProvider } from './components/user-context';
 // to inline CSS or in a split bundle
 import './styles.css';
 
-import type { ParentProps } from 'solid-js';
-import type { RouteDefinition } from '@solidjs/router';
+import type { RouteDefinition, RouteSectionProps } from '@solidjs/router';
 
 export const route = {
 	load: () => getUser(),
 } satisfies RouteDefinition;
 
-function Root(props: ParentProps) {
+function Root(props: RouteSectionProps) {
 	const user = createAsync(getUser, { deferStream: true });
+
 	return (
 		<MetaProvider>
 			<Title>SolidStart - Demo login</Title>
 			{/* Put head tags <Base />, <Link />, <Meta />, <Style>, <Title> here */}
-			<UserProvider accessor={user}>
+			<UserProvider user={user}>
 				<Suspense>{props.children}</Suspense>
 			</UserProvider>
 		</MetaProvider>

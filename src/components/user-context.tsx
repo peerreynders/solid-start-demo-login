@@ -1,36 +1,35 @@
 import { createContext, createMemo, useContext } from 'solid-js';
-import { areSame, makeUser } from '../lib/user';
+import { conditionUser } from '../lib/user';
 
-import type { ParentProps } from 'solid-js';
-import type { MaybeUser, UserAccessor } from '../lib/user';
+import { isServer } from 'solid-js/web';
+import { userFromSession } from '../server/user-from';
 
-function forwardUser(accessor: UserAccessor) {
-	const user = createMemo<MaybeUser>((currentUser) => {
-		const nextUser = accessor();
-		if (nextUser === undefined) return undefined;
+import type { Accessor, ParentProps } from 'solid-js';
+import type { MaybeUser } from '../lib/user';
 
-		if (currentUser === undefined || !areSame(currentUser, nextUser))
-			return makeUser(nextUser.id, nextUser.email);
+const forwardUser = (source: Accessor<MaybeUser>) =>
+	createMemo<MaybeUser>((current: MaybeUser) => {
+		if (isServer) return userFromSession();
 
-		// maintain referential stability as user hasn't changed
-		return currentUser;
+		return conditionUser(current, source());
 	}, undefined);
 
-	return user;
-}
+const UserContext = createContext<Accessor<MaybeUser>>();
 
-const UserContext = createContext<UserAccessor | undefined>();
-
-type Props = { accessor: UserAccessor } & ParentProps;
+type Props = { user: Accessor<MaybeUser> } & ParentProps;
 
 function UserProvider(props: Props) {
 	return (
-		<UserContext.Provider value={forwardUser(props.accessor)}>
+		<UserContext.Provider value={forwardUser(props.user)}>
 			{props.children}
 		</UserContext.Provider>
 	);
 }
 
-const useUser = () => useContext(UserContext);
+const useUser = () => {
+	const value = useContext(UserContext);
+	if (!value) throw new Error('Uninitialized UserContext');
+	return value;
+};
 
 export { UserProvider, useUser };

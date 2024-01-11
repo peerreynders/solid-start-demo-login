@@ -1,3 +1,4 @@
+// file: src/routes/index.tsx
 import { createEffect, Show } from 'solid-js';
 import { isServer } from 'solid-js/web';
 import { Title } from '@solidjs/meta';
@@ -23,12 +24,18 @@ const passwordInvalid = (passwordError: () => string | undefined) =>
 const passwordErrorId = (passwordError: () => string | undefined) =>
 	passwordError() ? 'password-error' : undefined;
 
-const hasAutofocus = (id: string, focusId: () => string) =>
-	isServer ? focusId() === id : undefined;
+function autofocusAt(focusId: () => string, id: string) {
+	if (isServer) {
+		return focusId() === id ? true : undefined;
+	}
+
+	return undefined;
+}
+
+const redirectTo = (props: RouteSectionProps) =>
+	props.location.query['redirect-to'] || homeHref;
 
 export default function Login(props: RouteSectionProps) {
-	const redirectTo = props.params['redirect-to'] || homeHref;
-
 	const signingIn = useSubmission(signIn);
 	const emailError = () =>
 		signingIn.result?.errors?.email as string | undefined;
@@ -60,7 +67,7 @@ export default function Login(props: RouteSectionProps) {
 							id="email"
 							class="c-login__email"
 							required
-							autofocus={hasAutofocus('email', focusId)}
+							autofocus={autofocusAt(focusId, 'email')}
 							name="email"
 							type="email"
 							autocomplete="email"
@@ -77,7 +84,7 @@ export default function Login(props: RouteSectionProps) {
 							ref={passwordInput}
 							id="password"
 							class="c-login__password"
-							autofocus={hasAutofocus('password', focusId)}
+							autofocus={autofocusAt(focusId, 'password')}
 							name="password"
 							type="password"
 							autocomplete="current-password"
@@ -88,7 +95,7 @@ export default function Login(props: RouteSectionProps) {
 							<div id="password-error">{passwordError()}</div>
 						</Show>
 					</div>
-					<input type="hidden" name="redirect-to" value={redirectTo} />
+					<input type="hidden" name="redirect-to" value={redirectTo(props)} />
 					<button type="submit" name="kind" value="login">
 						Log In
 					</button>

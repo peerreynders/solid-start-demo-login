@@ -7,17 +7,17 @@ import { validateEmail } from '../lib/helpers';
 import { clearSession, renewSession } from '../server/session';
 import { insertUser, selectUserByEmail, verifyLogin } from '../server/repo';
 
-function logout(event: RequestEvent) {
+function signOut(event: RequestEvent) {
 	const { user: _user, ...rest } = event.locals;
 	event.locals = rest;
 	return clearSession(event);
 }
 
-async function logoutFn() {
+async function signOutFn() {
 	const event = getRequestEvent();
 	if (!event) throw Error('Unable to access logout request');
 
-	await logout(event);
+	await signOut(event);
 
 	throw redirect('/login');
 }
@@ -121,4 +121,4 @@ async function signInFn(form: FormData) {
 	throw redirect(redirectTo);
 }
 
-export { logout, logoutFn, signInFn };
+export { signInFn, signOut, signOutFn };

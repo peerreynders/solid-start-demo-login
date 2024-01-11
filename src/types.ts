@@ -1,1 +1,2 @@
-export type { MaybeUser, User, UserAccessor } from './lib/user';
+// file: src/types.ts
+export type { MaybeUser, User } from './lib/user';

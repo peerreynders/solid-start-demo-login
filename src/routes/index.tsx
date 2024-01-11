@@ -1,9 +1,11 @@
-import { logout } from '../api';
+// file: src/routes/index.tsx
+import { signOut } from '../api';
 import { useUser } from '../components/user-context';
 
-import type { UserAccessor } from '../types';
+import type { Accessor } from 'solid-js';
+import type { MaybeUser } from '../types';
 
-const userEmail = (user: UserAccessor | undefined) => user?.()?.email ?? '';
+const userEmail = (user: Accessor<MaybeUser>) => user()?.email ?? '';
 
 function selectName(email: string) {
 	const indexEnd = email.indexOf('@');
@@ -29,7 +31,7 @@ export default function Home() {
 					to learn how to build SolidStart apps.
 				</p>
 				<div>
-					<form method="post" action={logout} class="c-info__logout">
+					<form method="post" action={signOut} class="c-info__logout">
 						<button
 							name="logout"
 							type="submit"

@@ -1,15 +1,10 @@
+// file: src/server/helpers.ts
 import { sessionFromEvent } from './session';
 import { selectUserById } from './repo';
+import { userFromRequestEvent, userFromSession } from './user-from';
 
-import type { RequestEvent } from 'solid-js/web';
 import type { FetchEvent } from '@solidjs/start/server';
 import type { User } from './types';
-
-function userFromRequestEvent(event: RequestEvent) {
-	if (!('user' in event.locals)) return undefined;
-	const user = event.locals.user;
-	return user && typeof user === 'object' ? user : undefined;
-}
 
 // TODO: review use of userFromFetch logic
 type SessionType = Awaited<ReturnType<typeof sessionFromEvent>>;
@@ -40,4 +35,4 @@ function userFromFetchEvent(event: FetchEvent) {
 		.then(cacheUser);
 }
 
-export { userFromFetchEvent, userFromRequestEvent };
+export { userFromFetchEvent, userFromRequestEvent, userFromSession };

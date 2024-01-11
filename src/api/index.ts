@@ -1,22 +1,18 @@
-import { getRequestEvent } from 'solid-js/web';
+// file: src/api/intext.ts
 import { action, cache } from '@solidjs/router';
-import { logoutFn, signInFn } from './server';
-import { userFromRequestEvent } from '../server/helpers';
+import { signInFn, signOutFn } from './server';
+import { userFromSession } from '../server/helpers';
 
 import type { MaybeUser } from '../types';
 
-async function userFromSession() {
-	'use server';
-	const event = getRequestEvent();
-	if (!event) return undefined;
-	return userFromRequestEvent(event);
-}
-
 const getUser = cache<() => Promise<MaybeUser>, Promise<MaybeUser>>(
-	userFromSession,
+	async () => {
+		'use server';
+		return userFromSession();
+	},
 	'user'
 );
-const logout = action(logoutFn, 'logout');
-const signIn = action(signInFn, 'signin');
+const signOut = action(signOutFn, 'sign-out');
+const signIn = action(signInFn, 'sign-in');
 
-export { getUser, logout, signIn };
+export { getUser, signIn, signOut };
