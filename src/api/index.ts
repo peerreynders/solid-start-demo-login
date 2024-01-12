@@ -3,7 +3,7 @@ import { action, cache } from '@solidjs/router';
 import { signInFn, signOutFn } from './server';
 import { userFromSession } from '../server/helpers';
 
-import type { MaybeUser } from '../types';
+import type { MaybeUser } from '../lib/user';
 
 const getUser = cache<() => Promise<MaybeUser>, Promise<MaybeUser>>(
 	async () => {

@@ -1,5 +1,8 @@
-import { getCookie } from 'h3';
-import { createMiddleware, sendRedirect } from '@solidjs/start/server';
+import {
+	createMiddleware,
+	getCookie,
+	sendRedirect,
+} from '@solidjs/start/server';
 import {
 	sessionFromEvent,
 	sessionUserId,

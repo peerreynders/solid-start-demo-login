@@ -1,3 +1,4 @@
+// file: src/server/repo.ts
 import { createStorage } from 'unstorage';
 import fsLiteDriver from 'unstorage/drivers/fs-lite';
 import { map, Observable, rx, type Observer, type Subscription } from 'rxjs';
@@ -5,7 +6,8 @@ import { nanoid } from 'nanoid';
 import bcrypt from 'bcryptjs';
 import { makeFromSeed } from './seed';
 
-import type { Authn, FromUserStore, HashedCallback, User } from './types';
+import type { User } from '../lib/user';
+import type { Authn, FromUserStore, HashedCallback } from './types';
 
 function hashUser(
 	email: string,

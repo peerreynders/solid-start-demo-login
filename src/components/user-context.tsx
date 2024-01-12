@@ -1,5 +1,6 @@
+// file: src/components/user-context.tsx
 import { createContext, createMemo, useContext } from 'solid-js';
-import { conditionUser } from '../lib/user';
+import { makeUser, equivalent } from '../lib/user';
 
 import { isServer } from 'solid-js/web';
 import { userFromSession } from '../server/user-from';
@@ -8,10 +9,15 @@ import type { Accessor, ParentProps } from 'solid-js';
 import type { MaybeUser } from '../lib/user';
 
 const forwardUser = (source: Accessor<MaybeUser>) =>
-	createMemo<MaybeUser>((current: MaybeUser) => {
+	createMemo<MaybeUser>((current) => {
 		if (isServer) return userFromSession();
 
-		return conditionUser(current, source());
+		const next = source();
+		return !next
+			? undefined
+			: current && equivalent(current, next)
+				? current
+				: makeUser(next.id, next.email);
 	}, undefined);
 
 const UserContext = createContext<Accessor<MaybeUser>>();

@@ -1,6 +1,5 @@
 // file: src/server/types.ts
-export type { User } from '../types';
-import type { User } from '../types';
+import { User } from '../lib/user';
 
 export type HashedCallback = (
 	email: string,

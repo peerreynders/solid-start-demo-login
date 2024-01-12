@@ -3,7 +3,7 @@ import { signOut } from '../api';
 import { useUser } from '../components/user-context';
 
 import type { Accessor } from 'solid-js';
-import type { MaybeUser } from '../types';
+import type { MaybeUser } from '../lib/user';
 
 const userEmail = (user: Accessor<MaybeUser>) => user()?.email ?? '';
 

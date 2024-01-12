@@ -4,7 +4,7 @@ import { selectUserById } from './repo';
 import { userFromRequestEvent, userFromSession } from './user-from';
 
 import type { FetchEvent } from '@solidjs/start/server';
-import type { User } from './types';
+import type { User } from '../lib/user';
 
 // TODO: review use of userFromFetch logic
 type SessionType = Awaited<ReturnType<typeof sessionFromEvent>>;
