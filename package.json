@@ -10,17 +10,17 @@
     "lint:types": "./node_modules/.bin/tsc --noEmit"
   },
   "dependencies": {
-    "@solidjs/meta": "^0.29.0",
-    "@solidjs/router": "^0.10.8",
-    "@solidjs/start": "0.4.6",
+    "@solidjs/meta": "^0.29.3",
+    "@solidjs/router": "^0.10.9",
+    "@solidjs/start": "^0.4.9",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
-    "h3": "1.10.0",
+    "h3": "^1.10.0",
     "nanoid": "^5.0.4",
     "rxjs": "8.0.0-alpha.13",
-    "solid-js": "^1.8.10",
+    "solid-js": "^1.8.11",
     "unstorage": "^1.10.1",
-    "vinxi": "0.1.1"
+    "vinxi": "^0.1.2"
   },
   "engines": {
     "node": ">=20"
@@ -33,5 +33,10 @@
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.1.1",
     "typescript": "^5.3.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "h3": "^1.10.0"
+    }
   }
 }

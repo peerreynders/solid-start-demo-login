@@ -7,7 +7,7 @@ import {
 } from '@solidjs/start/server';
 
 import type { RequestEvent } from 'solid-js/web';
-import type { Session, SessionConfig } from '@solidjs/start/server';
+import type { Session, SessionConfig } from 'h3';
 import type { User } from '../lib/user';
 
 export type SessionRecord = {

@@ -1,6 +1,7 @@
 import {
 	createMiddleware,
 	getCookie,
+	getRequestHeaders,
 	sendRedirect,
 } from '@solidjs/start/server';
 import {
@@ -8,11 +9,25 @@ import {
 	sessionUserId,
 	USER_SESSION_NAME,
 } from './server/session';
+import { isAllowedFnName } from './api';
 import { signOut } from './api/server';
 import { selectUserById } from './server/repo';
 import { homeHref, loginHref, logoutHref, pathAbsolute } from './route-path';
 
 import type { RequestEvent } from 'solid-js/web';
+import type { RequestHeaders } from 'h3';
+
+function isAllowedFn(headers: RequestHeaders) {
+	// leverage vinxi header
+	const serverFnId = headers['x-server-id'];
+	if (!serverFnId) return false;
+
+	const fragmentAt = serverFnId.lastIndexOf('#');
+	if (fragmentAt < 0) return false;
+
+	const fnName = serverFnId.slice(fragmentAt + 1);
+	return isAllowedFnName(fnName);
+}
 
 async function redirectWhenNotAuthenticated(event: RequestEvent) {
 	const login = loginHref();
@@ -40,8 +55,14 @@ async function redirectWhenNotAuthenticated(event: RequestEvent) {
 		}
 	}
 
-	// May need to revisit:
-	if (route === '/_server') return;
+	let headers: RequestHeaders | undefined;
+	const getHeaders = () => (headers ? headers : getRequestHeaders(event));
+
+	if (route === '/_server') {
+		if (isAllowedFn(getHeaders())) return;
+
+		return sendRedirect(event, login);
+	}
 
 	// need to authenticate
 	if (route !== login) return sendRedirect(event, loginHref(pathAbsolute(url)));

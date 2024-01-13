@@ -3,14 +3,14 @@ import { createContext, createMemo, useContext } from 'solid-js';
 import { makeUser, equivalent } from '../lib/user';
 
 import { isServer } from 'solid-js/web';
-import { userFromSession } from '../server/user-from';
+import { getUserSync } from '../api/server';
 
 import type { Accessor, ParentProps } from 'solid-js';
 import type { MaybeUser } from '../lib/user';
 
 const forwardUser = (source: Accessor<MaybeUser>) =>
 	createMemo<MaybeUser>((current) => {
-		if (isServer) return userFromSession();
+		if (isServer) return getUserSync();
 
 		const next = source();
 		return !next

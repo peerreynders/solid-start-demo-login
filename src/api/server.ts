@@ -1,3 +1,4 @@
+// file: src/api/server.ts
 'use server';
 import { getRequestEvent, type RequestEvent } from 'solid-js/web';
 import { redirect } from '@solidjs/router';
@@ -6,6 +7,7 @@ import { homeHref } from '../route-path';
 import { validateEmail } from '../lib/helpers';
 import { clearSession, renewSession } from '../server/session';
 import { insertUser, selectUserByEmail, verifyLogin } from '../server/repo';
+import { userFromRequestEvent } from '../server/helpers';
 
 function signOut(event: RequestEvent) {
 	const { user: _user, ...rest } = event.locals;
@@ -121,4 +123,10 @@ async function signInFn(form: FormData) {
 	throw redirect(redirectTo);
 }
 
-export { signInFn, signOut, signOutFn };
+function getUserSync() {
+	const event = getRequestEvent();
+	if (!event) return undefined;
+	return userFromRequestEvent(event);
+}
+
+export { getUserSync, signInFn, signOut, signOutFn };
